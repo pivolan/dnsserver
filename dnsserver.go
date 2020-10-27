@@ -149,15 +149,15 @@ func handleDNSClient(requestBytes []byte, serverConn *net.UDPConn, clientAddr *n
 
 	queryResourceRecords = make([]DNSResourceRecord, queryHeader.NumQuestions)
 
-	for _, queryResourceRecord := range queryResourceRecords {
-		queryResourceRecord.DomainName, err = readDomainName(requestBuffer)
+	for i, _ := range queryResourceRecords {
+		queryResourceRecords[i].DomainName, err = readDomainName(requestBuffer)
 
 		if err != nil {
 			fmt.Println("Error decoding label: ", err.Error())
 		}
 
-		queryResourceRecord.Type = binary.BigEndian.Uint16(requestBuffer.Next(2))
-		queryResourceRecord.Class = binary.BigEndian.Uint16(requestBuffer.Next(2))
+		queryResourceRecords[i].Type = binary.BigEndian.Uint16(requestBuffer.Next(2))
+		queryResourceRecords[i].Class = binary.BigEndian.Uint16(requestBuffer.Next(2))
 	}
 
 	/**
