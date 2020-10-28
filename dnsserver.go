@@ -79,7 +79,7 @@ func dbLookup(queryResourceRecord DNSResourceRecord) ([]DNSResourceRecord, []DNS
 			Type:               TypeA,
 			Class:              ClassINET,
 			TimeToLive:         3600,
-			ResourceData:       []byte{5, 45, 74, 71}, // ipv4 address
+			ResourceData:       []byte{82, 146, 61, 96}, // ipv4 address
 			ResourceDataLength: 4,
 		}
 
