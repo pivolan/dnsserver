@@ -73,13 +73,13 @@ func dbLookup(queryResourceRecord DNSResourceRecord) ([]DNSResourceRecord, []DNS
 	var authorityResourceRecords = make([]DNSResourceRecord, 0)
 	var additionalResourceRecords = make([]DNSResourceRecord, 0)
 
-	if queryResourceRecord.DomainName == "example.com" && queryResourceRecord.Type == TypeA && queryResourceRecord.Class == ClassINET {
+	if queryResourceRecord.Type == TypeA && queryResourceRecord.Class == ClassINET {
 		exampleResourceRecord := DNSResourceRecord{
-			DomainName:         "example.com",
+			DomainName:         queryResourceRecord.DomainName,
 			Type:               TypeA,
 			Class:              ClassINET,
-			TimeToLive:         31337,
-			ResourceData:       []byte{3, 1, 3, 7}, // ipv4 address
+			TimeToLive:         3600,
+			ResourceData:       []byte{5, 45, 74, 71}, // ipv4 address
 			ResourceDataLength: 4,
 		}
 
@@ -253,7 +253,7 @@ func handleDNSClient(requestBytes []byte, serverConn *net.UDPConn, clientAddr *n
 }
 
 func main() {
-	serverAddr, err := net.ResolveUDPAddr("udp", ":1053")
+	serverAddr, err := net.ResolveUDPAddr("udp", ":53")
 
 	if err != nil {
 		fmt.Println("Error resolving UDP address: ", err.Error())
