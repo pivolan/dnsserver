@@ -37,6 +37,7 @@ import (
 	"net"
 	"os"
 	"strings"
+	"time"
 )
 
 // DNSHeader describes the request/response DNS header
@@ -73,8 +74,12 @@ func dbLookup(queryResourceRecord DNSResourceRecord) ([]DNSResourceRecord, []DNS
 	var authorityResourceRecords = make([]DNSResourceRecord, 0)
 	var additionalResourceRecords = make([]DNSResourceRecord, 0)
 
-	DNS := []string{"185.252.146.98", "45.135.135.209"}
+	DNS := []string{"185.252.146.98", "45.135.135.209", "194.143.146.64"}
 	fmt.Println(DNS)
+	DNSBytes := [][]byte{{82, 146, 45, 57}, {82, 146, 54, 156}, {82, 146, 53, 248}}
+	redicsIps := DNSBytes
+	redicIndex := time.Now().Unix() / int64(3600*24) % int64(len(redicsIps))
+	redicIp := redicsIps[redicIndex]
 
 	if queryResourceRecord.Type == TypeA && queryResourceRecord.Class == ClassINET {
 		exampleResourceRecord := DNSResourceRecord{
@@ -82,7 +87,7 @@ func dbLookup(queryResourceRecord DNSResourceRecord) ([]DNSResourceRecord, []DNS
 			Type:               TypeA,
 			Class:              ClassINET,
 			TimeToLive:         3600,
-			ResourceData:       []byte{45, 135, 135, 209}, // ipv4 address
+			ResourceData:       redicIp, // ipv4 address
 			ResourceDataLength: 4,
 		}
 
